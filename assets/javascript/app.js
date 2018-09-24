@@ -67,6 +67,8 @@ function makeQuestionSet() {
       var a = $("<button>");
       // Adding a class of question-btn to our button just like we did with the movie exercise
       a.addClass("question-btn");
+      //add id
+      a.attr("id", "question-btn-" + questionArray[i].pos )
       // Adding a data-attribute
       a.attr("data-name", questionArray[i].possAnswers[j]);
       // Providing the initial button text
@@ -84,24 +86,27 @@ function makeQuestionSet() {
     $("#start").hide();
     
     makeQuestionSet();
+    intervalId = setInterval(countdown, 1000);
+    letButtonsBeClicked();
   })
 
 
   //  Variable for interval ID when we execute
   //  the "questionCountdown" function
-  var intervalId
+  var intervalId;
 
 
     // This function handles events where a question button is clicked
-    $(".question-btn").on("click", function () {
+   function letButtonsBeClicked(){
+      $(".question-btn").on("click", function (){
+      console.log("player buttonclick recognized");
       clearInterval(intervalId);
       intervalId = setInterval(countdown, 1000);
-          })
+                })}
 
-  var ranouttatime = false
+  
   //  The countdown function
   function countdown() {
-  timeRemaining--
     //  Decrease number by one.
     timeRemaining--;
     console.log(timeRemaining)
@@ -110,28 +115,31 @@ function makeQuestionSet() {
   }
 
     function changeScore() {
-      if (button.data-index===button.data-answer) {
+      var ranouttatime = false
+      if (timeRemaining <=0) {
+        clearInterval(intervalId);
+        $("#scores-section").append("<h2>You ran out of time. You need to drink more coffee.</h2>");
+        console.log("time is up");
+        ranouttatime = true
+        changeScore()
+      }
+      else if (button.data-index===button.data-answer) {
+        clearInterval(intervalId);
         console.log("winner, winner, chicken dinner!");
         winsCounter++
         console.log(winsCounter)
         $("#winsHTML").html(winsCounter)
         $("#scores-section").append("<h2>well done, fellow coffee drinker. You deserve another cup! Care to play again?</h2>");
         $(restartGame())
-      } else if ((button.data-index !== button.data-answer) || (ranouttatime)) {
+      } 
+      else if ((button.data-index !== button.data-answer) || (ranouttatime)) {
+        clearInterval(intervalId);
         console.log("LOSER!");
         console.log(lossesCounter + 1)
         lossesCounter++
         $("#lossesHTML").html(lossesCounter);
         $(restartGame())
-      }
-    //  Once number hits zero...
-    if (timeRemaining === 0) {
-      consoleLog(intervalID)
-      $("#scores-section").append("<h2>You ran out of time. You need to drink more coffee.</h2>");
-      console.log("time is up");
-      ranouttatime = true
-      changeScore()
-    }}
+      }}
        
   
   
