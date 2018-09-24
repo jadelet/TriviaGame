@@ -142,7 +142,7 @@ function makeQuestionSet() {
         $("#winsHTML").html("<h1>WINS:" + winsCounter + "</h1>");
         while (timeRemaining>0){
         $("#scores-section").append("<h2>well done, fellow coffee drinker. You deserve another cup! I think you need another question.</h2>");}
-        $(restartGame());
+       restartGame()
       } 
       else if ((button.data-index !== button.data-answer) || (ranouttatime)) {
         clearInterval(intervalId2);
@@ -151,9 +151,18 @@ function makeQuestionSet() {
         lossesCounter++;
         $("#lossesHTML").html("<h1>LOSSES:" + lossesCounter + "</h1>");
         while (timeRemaining>0){
-        $("#scores-section").append("<h2>Your coffee consumption is way under par. Drink more. I think you need another question.</h2>");}
-        $(restartGame());
-      }}
+        $("#scores-section").append("<h2>Your coffee consumption is way under par. Drink more. I think you need another question.</h2>");  
+       restartGame()}
+
+       function restartGame(){
+        $(".scores-section").empty();
+        $(".right-answer").empty();
+        $("buttons-view").empty();
+        i++
+        makeQuestionSet()
+       }}
+
+      }
        
   
   
