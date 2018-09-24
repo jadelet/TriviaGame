@@ -3,6 +3,7 @@ body {
   background-image: url(../images/coffeebeans.jpg);
   /* background-size: cover;  */
   font-family: 'Poor Story', cursive;
+  color: bisque
 };
 .main-area {
   text-align: center;
@@ -15,5 +16,9 @@ body {
 };
 #scores-section {
   align-content: center;
-  align-text: center;
+   color:bisque!;
+
+  h; {
+  align-content: center;
+   color:bisque!;
 }

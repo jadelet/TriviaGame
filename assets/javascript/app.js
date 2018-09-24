@@ -1,8 +1,6 @@
 //the variables bit
-var correctMsg = "right!"
-var wrongMsg = "wrong!"
-var playerAnswer = ""
-var compyAnswer = ""
+
+
 var winsCounter = 0
 var lossesCounter = 0
 
@@ -45,8 +43,8 @@ var questionArray = [{ pos: 0,
 ]
 
 
-// Variable to  hold the setInterval when we start the slideshow
-var nextQuestion;
+
+
 var timeRemaining = 7
 // function when player choice is made
 
@@ -78,15 +76,15 @@ function makeQuestionSet() {
       // Adding the button to the buttons-view div
       a.attr("data-index", questionArray[i].pos)
       $("#buttons-view").append(a);
+      console.log (a)
     }
   }
 //Click event to start the whole thing off.
   $("#start").on("click", function (){
     console.log("start");
     $("#start").hide();
-    
     makeQuestionSet();
-    intervalId = setInterval(countdown, 1000);
+    intervalId = setInterval(questionCountdown, 1000);
     letButtonsBeClicked();
   })
 
@@ -94,51 +92,67 @@ function makeQuestionSet() {
   //  Variable for interval ID when we execute
   //  the "questionCountdown" function
   var intervalId;
-
-
+  
     // This function handles events where a question button is clicked
    function letButtonsBeClicked(){
       $(".question-btn").on("click", function (){
       console.log("player buttonclick recognized");
       clearInterval(intervalId);
-      intervalId = setInterval(countdown, 1000);
-                })}
+      intervalId2 = setInterval(answerCountdown, 1000);
+      timeRemaining=7;
+     
+       })}
 
   
-  //  The countdown function
-  function countdown() {
+  //  The question countdown function
+  function questionCountdown() {
     //  Decrease number by one.
     timeRemaining--;
-    console.log(timeRemaining)
-    //  Show the number in the #show-number tag.
-    $("#show-number").html("<h1>You have" + timeRemaining + "seconds left to answer.</h1>");
+    console.log(timeRemaining);
+    //  Show the number in the #scores-section tag.
+    $("#scores-section").html("<h1>You have" + timeRemaining + "seconds left to answer.</h1>");
+    var ranouttatime = false
+      if (timeRemaining <=0) {
+        console.log("time is up");
+        ranouttatime = true;
+        $(".scores-section").empty();
+        $("#scores-section").html("<h2>You ran out of time. You need to drink more coffee.</h2>");
+        changeScore ();        ;
+  }}
+  //  The show answer countdown function
+  function answerCountdown() {
+    //  Decrease number by one.
+    timeRemaining--;
+    console.log(timeRemaining);
+    
+    changeScore ()
+   
   }
+    //  Show the number in the #scores-section tag.
+   
+
 
     function changeScore() {
-      var ranouttatime = false
-      if (timeRemaining <=0) {
-        clearInterval(intervalId);
-        $("#scores-section").append("<h2>You ran out of time. You need to drink more coffee.</h2>");
-        console.log("time is up");
-        ranouttatime = true
-        changeScore()
-      }
-      else if (button.data-index===button.data-answer) {
-        clearInterval(intervalId);
+  
+       if (questionArray.index===questionArray.answer) {
+        clearInterval(intervalId2);
         console.log("winner, winner, chicken dinner!");
-        winsCounter++
-        console.log(winsCounter)
-        $("#winsHTML").html(winsCounter)
-        $("#scores-section").append("<h2>well done, fellow coffee drinker. You deserve another cup! Care to play again?</h2>");
-        $(restartGame())
+        winsCounter++;
+        console.log(winsCounter);
+        $("#winsHTML").html("<h1>WINS:" + winsCounter + "</h1>");
+        while (timeRemaining>0){
+        $("#scores-section").append("<h2>well done, fellow coffee drinker. You deserve another cup! I think you need another question.</h2>");}
+        $(restartGame());
       } 
       else if ((button.data-index !== button.data-answer) || (ranouttatime)) {
-        clearInterval(intervalId);
-        console.log("LOSER!");
-        console.log(lossesCounter + 1)
-        lossesCounter++
-        $("#lossesHTML").html(lossesCounter);
-        $(restartGame())
+        clearInterval(intervalId2);
+        console.log("WRONG! I think you need another question.");
+        console.log(lossesCounter + 1);
+        lossesCounter++;
+        $("#lossesHTML").html("<h1>LOSSES:" + lossesCounter + "</h1>");
+        while (timeRemaining>0){
+        $("#scores-section").append("<h2>Your coffee consumption is way under par. Drink more. I think you need another question.</h2>");}
+        $(restartGame());
       }}
        
   
